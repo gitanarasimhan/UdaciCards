@@ -17,7 +17,8 @@ import {
     Body,
     Item,
     Text,
-    Form
+    Form,
+    Right
 } from 'native-base';
 
 
@@ -37,8 +38,9 @@ export default class AddCard extends Component {
             'Roboto': require('native-base/Fonts/Roboto.ttf'),
             'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
         });
-        this.setState({ loading: false });
+        this.setState({loading: false});
     }
+
     constructor(props) {
         super(props);
         this.state = {
@@ -70,6 +72,11 @@ export default class AddCard extends Component {
         }
     }
 
+    restartQuiz = () => {
+        this.setState({count: 0});
+        this.setState({"quizComplete": false});
+    }
+
     componentDidMount() {
         AsyncStorage.getItem(this.props.navigation.state.params["entryId"]).then((result) => {
             this.setState({"questions": JSON.parse(result)["questions"]});
@@ -83,29 +90,33 @@ export default class AddCard extends Component {
         return (
             <Container>
                 <Content>
-                    {!this.state.quizComplete && !this.state.answerBtn && <Body>
-                    <Text style={{marginTop: 55, marginBottom: 20, fontWeight: "bold"}}>
-                        {JSON.stringify(this.state.questions[this.state.count]) !== undefined && JSON.stringify(this.state.questions[this.state.count]["question"])}
-                    </Text>
-                    <Text style={{fontStyle: "italic", marginBottom: 20}}>
-                        <Text>Is it</Text>
-                        - {JSON.stringify(this.state.questions[this.state.count]) !== undefined && JSON.stringify(this.state.questions[this.state.count]["answer"])}
-                    </Text>
-                    <Body>
-                    <Button transparent danger onPress={() => this.setState({"answerBtn": true})}
-                            style={{marginLeft: 47}}>
-                        <Text>Answer</Text>
-                    </Button>
-                    <Button rounded onPress={() => this.updateScore("correct")}
-                            style={Platform.OS === 'ios' ? styles.iosSubmitBtn : styles.AndroidSubmitBtn}>
-                        <Text>Correct</Text>
-                    </Button>
-                    <Button rounded onPress={() => this.updateScore("incorrect")}
-                            style={Platform.OS === 'ios' ? styles.iosSubmitBtn : styles.AndroidSubmitBtn}>
-                        <Text>Incorrect</Text>
-                    </Button>
-                    </Body>
-                    </Body>}
+                    {!this.state.quizComplete && !this.state.answerBtn &&
+                        <Body >
+                        <Text style={{marginTop: 45, marginBottom: 20, marginLeft: 300, fontWeight: "bold"}}>
+                            {this.state.count + 1} / {this.state.questions.length}
+                        </Text>
+                        <Text style={{marginTop: 55, marginBottom: 20, fontWeight: "bold"}}>
+                            {JSON.stringify(this.state.questions[this.state.count]) !== undefined && JSON.stringify(this.state.questions[this.state.count]["question"])}
+                        </Text>
+                        <Text style={{fontStyle: "italic", marginBottom: 20}}>
+                            <Text>Is it</Text>
+                            - {JSON.stringify(this.state.questions[this.state.count]) !== undefined && JSON.stringify(this.state.questions[this.state.count]["answer"])}
+                        </Text>
+                        <Body>
+                        <Button transparent danger onPress={() => this.setState({"answerBtn": true})}
+                                style={{marginLeft: 47}}>
+                            <Text>Answer</Text>
+                        </Button>
+                        <Button rounded onPress={() => this.updateScore("correct")}
+                                style={Platform.OS === 'ios' ? styles.iosSubmitBtn : styles.AndroidSubmitBtn}>
+                            <Text>Correct</Text>
+                        </Button>
+                        <Button rounded onPress={() => this.updateScore("incorrect")}
+                                style={Platform.OS === 'ios' ? styles.iosSubmitBtn : styles.AndroidSubmitBtn}>
+                            <Text>Incorrect</Text>
+                        </Button>
+                        </Body>
+                        </Body>}
                     {this.state.answerBtn && <Body>
                     <Text style={{marginTop: 55, marginBottom: 20, fontWeight: "bold", fontSize: 25}}>
                         YES
@@ -118,7 +129,20 @@ export default class AddCard extends Component {
                     {this.state.quizComplete &&
                     <Body>
                     <Text style={{marginTop: 55, marginBottom: 20, fontStyle: "italic"}}>Score of the Quiz is:</Text>
-                    <Text style={{marginBottom: 20, fontWeight: "bold"}}>{this.state.score / this.state.questions.length * 100} %</Text>
+                    <Text style={{
+                        marginBottom: 20,
+                        fontWeight: "bold"
+                    }}>{this.state.score / this.state.questions.length * 100} %</Text>
+                    <Button rounded onPress={this.restartQuiz}
+                            style={Platform.OS === 'ios' ? styles.iosSubmitBtn : styles.AndroidSubmitBtn}>
+                        <Text>Restart Quiz</Text>
+                    </Button>
+                    <Button rounded onPress={() => this.props.navigation.navigate(
+                        'DeckDetail',
+                        {entryId: this.props.navigation.state.params["entryId"]}
+                    )} style={Platform.OS === 'ios' ? styles.iosSubmitBtn : styles.AndroidSubmitBtn}>
+                        <Text>Back to Deck</Text>
+                    </Button>
                     </Body>}
 
                 </Content>

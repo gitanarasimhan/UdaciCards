@@ -43,7 +43,11 @@ export default class NewDeck extends Component {
                 questions: []
             }
             AsyncStorage.setItem( this.state.text, JSON.stringify(reactState)).then((result) => {
-                this.props.navigation.goBack();
+                this.setState({"text": ""});
+                this.props.navigation.navigate(
+                    'DeckDetail',
+                    {entryId: reactState["title"]}
+                )
             });
         }
         else {
