@@ -57,7 +57,8 @@ const MainNavigator = StackNavigator({
             headerTintColor: white,
             headerStyle: {
                 backgroundColor: purple,
-            }
+            },
+            passProps: {index: 1}
         }
     },
     AddCard: {

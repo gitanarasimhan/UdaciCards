@@ -43,7 +43,12 @@ export default class Decks extends Component {
             this.setState({"deckData" : JSON.parse(result)});
         })
     }
+
+
     render() {
+        AsyncStorage.getItem(this.props.navigation.state.params["entryId"]).then((result) => {
+            this.setState({"deckData" : JSON.parse(result)});
+        })
         if (this.state.loading) {
             return <Expo.AppLoading />;
         }

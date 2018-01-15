@@ -46,16 +46,16 @@ export default class Decks extends Component {
         })
         return (
             <Container>
-                {this.state.arr.length <= 0 &&
+                {this.state.arr.length === 0 &&
                 <Content>
                     <Card>
                         <CardItem>
-                            <Text>Empty Deck</Text>
+                            <Text style={{marginTop: 45, fontSize: 25, fontWeight: "bold"}}>Empty Deck</Text>
                         </CardItem>
                     </Card>
                 </Content>
                 }
-                <Header><Text>Card Deck</Text></Header>
+                {this.state.arr.length > 0 && <Header><Text>Card Deck</Text></Header>}
                 <Content>
                     {this.state.arr.length > 0 && Object.keys(this.state.arr).map((k) => {
                         return (
