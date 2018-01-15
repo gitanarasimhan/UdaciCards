@@ -57,7 +57,9 @@ export default class AddCard extends Component {
 
                 }
                 AsyncStorage.mergeItem(this.props.navigation.state.params["entryId"], JSON.stringify(reactState)).then((result) => {
-                    this.props.navigation.goBack();
+                    AsyncStorage.getItem(this.props.navigation.state.params["entryId"]).then((result) => {
+                        this.props.navigation.goBack();
+                    });
                 });
             });
 
