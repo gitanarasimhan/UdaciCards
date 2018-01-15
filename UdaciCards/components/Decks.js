@@ -40,6 +40,11 @@ export default class Decks extends Component {
             return <Expo.AppLoading />;
         }
         AsyncStorage.getAllKeys().then((results) => {
+            for(var i = results.length - 1; i >= 0; i--) {
+                if(results[i] === "quiz-notification") {
+                    results.splice(i, 1);
+                }
+            }
             AsyncStorage.multiGet(results).then((result) => {
                 this.setState({'arr': result});
             })
@@ -69,12 +74,16 @@ export default class Decks extends Component {
                                         <Text style={{fontSize: 25, fontWeight: "bold"}}>
                                             {this.state.arr[k][0]}
                                         </Text>
-                                        {JSON.parse(this.state.arr[k][1])["questions"].length <=1 && <Text style={styles.deckCount}>
+                                        {JSON.parse(this.state.arr[k][1])["questions"] &&
+                                        JSON.parse(this.state.arr[k][1])["questions"].length <=1 && <Text style={styles.deckCount}>
                                             {JSON.parse(this.state.arr[k][1])["questions"].length} Card
                                         </Text>}
-                                        {JSON.parse(this.state.arr[k][1])["questions"].length > 1 && <Text style={styles.deckCount}>
+
+                                        {JSON.parse(this.state.arr[k][1])["questions"] && JSON.parse(this.state.arr[k][1])["questions"].length > 1 && <Text style={styles.deckCount}>
                                             {JSON.parse(this.state.arr[k][1])["questions"].length} Cards
-                                        </Text>}
+                                            </Text>
+                                        }
+
                                         </Body>
                                     </CardItem>
                                 </Card>

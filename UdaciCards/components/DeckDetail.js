@@ -54,7 +54,7 @@ export default class Decks extends Component {
         }
         return (
                 <Container key={this.state.deckData["title"]}>
-                    <Content >
+                    {this.props.navigation.state.params["entryId"]!== "" && <Content >
                         <Body style={{marginTop: 55}}>
                         <Text style={{fontSize: 25, fontWeight: "bold"}}>
                             {this.state.deckData["title"]}
@@ -80,7 +80,8 @@ export default class Decks extends Component {
                             <Text>START QUIZ</Text>
                         </Button>
                         </Body>
-                    </Content>
+                    </Content>}
+
                 </Container>
         )
     }

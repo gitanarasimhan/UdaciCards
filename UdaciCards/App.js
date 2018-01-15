@@ -1,15 +1,15 @@
 import React from 'react';
-import { StyleSheet, Text, View, Platform, StatusBar } from 'react-native';
-import { TabNavigator, StackNavigator } from 'react-navigation'
-import { purple, white } from './utils/colors'
-import { FontAwesome, Ionicons } from '@expo/vector-icons'
-import { Constants } from 'expo'
+import {StyleSheet, Text, View, Platform, StatusBar} from 'react-native';
+import {TabNavigator, StackNavigator} from 'react-navigation'
+import {purple, white} from './utils/colors'
+import {FontAwesome, Ionicons} from '@expo/vector-icons'
+import {Constants} from 'expo'
 import  Decks  from './components/Decks';
 import  NewDeck  from './components/NewDeck';
 import  DeckDetail  from './components/DeckDetail';
 import AddCard from './components/AddCard'
 import Quiz from './components/Quiz'
-
+import {setLocalNotification} from './utils/helpers'
 
 
 const Tabs = TabNavigator({
@@ -17,14 +17,14 @@ const Tabs = TabNavigator({
         screen: Decks,
         navigationOptions: {
             tabBarLabel: 'Decks',
-            tabBarIcon: ({ tintColor }) => <Ionicons name='ios-folder' size={30} color={tintColor} />
+            tabBarIcon: ({tintColor}) => <Ionicons name='ios-folder' size={30} color={tintColor}/>
         },
     },
     NewDeck: {
         screen: NewDeck,
         navigationOptions: {
             tabBarLabel: 'New Decks',
-            tabBarIcon: ({ tintColor }) => <FontAwesome name='plus-square' size={30} color={tintColor} />
+            tabBarIcon: ({tintColor}) => <FontAwesome name='plus-square' size={30} color={tintColor}/>
         },
     }
 }, {
@@ -83,11 +83,15 @@ const MainNavigator = StackNavigator({
 
 
 export default class App extends React.Component {
-  render() {
-    return (
-      <View style={{flex: 1}}>
-          <MainNavigator/>
-      </View>
-    );
-  }
+    componentDidMount() {
+        setLocalNotification()
+    }
+
+    render() {
+        return (
+            <View style={{flex: 1}}>
+                <MainNavigator/>
+            </View>
+        );
+    }
 }

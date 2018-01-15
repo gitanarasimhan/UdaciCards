@@ -32,6 +32,7 @@ export default class NewDeck extends Component {
     }
     state = { text: '' , loading:true}
     addNewDeck = () => {
+        AsyncStorage.clear();
         var title = "";
         if(this.state.text !== "") {
             var array = this.state.text.split(' ');

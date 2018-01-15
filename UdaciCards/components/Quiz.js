@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {StyleSheet, View, TextInput, TouchableOpacity, AsyncStorage, Platform} from 'react-native'
 import {purple, black, white, yellow} from '../utils/colors'
 import Expo from 'expo'
+import {clearLocalNotification, setLocalNotification} from '../utils/helpers'
 
 
 import {
@@ -65,6 +66,8 @@ export default class AddCard extends Component {
             this.setState({count: this.state.count + 1});
         } else {
             this.setState({"quizComplete": true});
+            clearLocalNotification()
+                .then(setLocalNotification)
         }
 
         if (type === "correct") {
