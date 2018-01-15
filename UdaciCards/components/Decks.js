@@ -17,14 +17,28 @@ import {
     CardItem
 } from 'native-base';
 import {purple, white, yellow} from '../utils/colors';
+import Expo from 'expo'
 
 
 export default class Decks extends Component {
+
+    async componentWillMount() {
+        await Expo.Font.loadAsync({
+            'Roboto': require('native-base/Fonts/Roboto.ttf'),
+            'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
+        });
+        this.setState({ loading: false });
+
+    }
     state = {
-        arr: []
+        arr: [],
+        loading: true
     }
 
     render() {
+        if (this.state.loading) {
+            return <Expo.AppLoading />;
+        }
         AsyncStorage.getAllKeys().then((results) => {
             AsyncStorage.multiGet(results).then((result) => {
                 this.setState({'arr': result});

@@ -16,11 +16,21 @@ import {
     Text,
     Form
 } from 'native-base';
+import Expo from 'expo'
+
 
 
 
 export default class NewDeck extends Component {
-    state = { text: '' }
+
+    async componentWillMount() {
+        await Expo.Font.loadAsync({
+            'Roboto': require('native-base/Fonts/Roboto.ttf'),
+            'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
+        });
+        this.setState({ loading: false });
+    }
+    state = { text: '' , loading:true}
     addNewDeck = () => {
         var title = "";
         if(this.state.text !== "") {
@@ -41,6 +51,9 @@ export default class NewDeck extends Component {
         }
     }
     render() {
+        if (this.state.loading) {
+            return <Expo.AppLoading />;
+        }
         return (
             <Container>
                 <Header><Text>Add Deck</Text></Header>

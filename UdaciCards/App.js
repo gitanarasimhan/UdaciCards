@@ -11,13 +11,6 @@ import AddCard from './components/AddCard'
 import Quiz from './components/Quiz'
 
 
-function UdaciStatusBar ({backgroundColor, ...props}) {
-    return (
-        <View style={{ backgroundColor, height: Constants.statusBarHeight }}>
-            <StatusBar translucent backgroundColor={backgroundColor} {...props} />
-        </View>
-    )
-}
 
 const Tabs = TabNavigator({
     Decks: {
@@ -92,7 +85,6 @@ export default class App extends React.Component {
   render() {
     return (
       <View style={{flex: 1}}>
-          <UdaciStatusBar backgroundColor={purple} barStyle="light-content" />
           <MainNavigator/>
       </View>
     );

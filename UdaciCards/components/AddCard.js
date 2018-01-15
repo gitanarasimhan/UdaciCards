@@ -17,10 +17,17 @@ import {
     Form
 } from 'native-base';
 
-
+import Expo from 'expo'
 
 export default class AddCard extends Component {
 
+    async componentWillMount() {
+        await Expo.Font.loadAsync({
+            'Roboto': require('native-base/Fonts/Roboto.ttf'),
+            'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
+        });
+        this.setState({ loading: false });
+    }
     static navigationOptions = ({navigation}) => {
         const {entryId} = navigation.state.params
         return {
@@ -30,7 +37,8 @@ export default class AddCard extends Component {
 
     state = {
         question: '',
-        answer: ''
+        answer: '',
+        loading: true
     }
     addNewCard = () => {
         if(this.state.question !== "" && this.state.answer !== "") {
@@ -60,6 +68,9 @@ export default class AddCard extends Component {
     }
 
     render() {
+        if (this.state.loading) {
+            return <Expo.AppLoading />;
+        }
         return (
                 <Container>
                     <Content>
@@ -74,7 +85,7 @@ export default class AddCard extends Component {
                                 <Label>Answer</Label>
                                 <Input
                                     onChangeText={(text) => this.setState({"answer": text})}
-                                    value={this.state.question}/>
+                                    value={this.state.answer}/>
                             </Item>
                             <Body>
                             <Button rounded light onPress={this.addNewCard}

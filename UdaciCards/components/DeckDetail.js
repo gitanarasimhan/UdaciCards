@@ -16,10 +16,20 @@ import {
     Text,
     Form
 } from 'native-base';
+import Expo from 'expo'
 
 export default class Decks extends Component {
+    async componentWillMount() {
+        await Expo.Font.loadAsync({
+            'Roboto': require('native-base/Fonts/Roboto.ttf'),
+            'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
+        });
+        this.setState({ loading: false });
+    }
+
     state = {
-        deckData :{}
+        deckData :{},
+        loading: true
     }
     static navigationOptions = ({ navigation }) => {
         const { entryId } = navigation.state.params
@@ -34,8 +44,9 @@ export default class Decks extends Component {
         })
     }
     render() {
-
-
+        if (this.state.loading) {
+            return <Expo.AppLoading />;
+        }
         return (
                 <Container key={this.state.deckData["title"]}>
                     <Content >

@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import {StyleSheet, View, TextInput, TouchableOpacity, AsyncStorage, Platform} from 'react-native'
 import {purple, black, white, yellow} from '../utils/colors'
+import Expo from 'expo'
+
 
 import {
     Container,
@@ -30,6 +32,13 @@ function QuestionBtn({onPress}) {
 }
 
 export default class AddCard extends Component {
+    async componentWillMount() {
+        await Expo.Font.loadAsync({
+            'Roboto': require('native-base/Fonts/Roboto.ttf'),
+            'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
+        });
+        this.setState({ loading: false });
+    }
     constructor(props) {
         super(props);
         this.state = {
@@ -37,7 +46,8 @@ export default class AddCard extends Component {
             questions: [],
             score: 0,
             quizComplete: false,
-            answerBtn: false
+            answerBtn: false,
+            loading: true
         };
     }
 
@@ -67,6 +77,9 @@ export default class AddCard extends Component {
     }
 
     render() {
+        if (this.state.loading) {
+            return <Expo.AppLoading />;
+        }
         return (
             <Container>
                 <Content>
